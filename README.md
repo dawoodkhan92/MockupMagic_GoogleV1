@@ -3,7 +3,7 @@
 MockupMagic is an AI-powered tool that empowers small businesses, Etsy sellers, and entrepreneurs to create stunning, professional-grade product photos in seconds. Simply upload an image of your product, describe a scene, and let the Gemini API generate a beautiful, studio-quality mockup.
 
 ### 🚀 [Live Demo Link](https://copy-of-mockupmagic-professional-product-photos-882767993889.us-west1.run.app/)
-### 🎥 [Video Demo Link (Coming Soon)]()
+### 🎥 [Video Demo Link](https://youtu.be/UDR2BrXeEB0)
 
 ---
 
