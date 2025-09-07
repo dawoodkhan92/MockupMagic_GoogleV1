@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import type { UploadedImage } from '../types';
-import { UploadIcon } from './Icons';
+import { UploadIcon, CloseIcon } from './Icons';
 
 interface ImageUploaderProps {
   onImageUpload: (image: UploadedImage) => void;
-  uploadedImageName: string | null;
+  uploadedImage: UploadedImage | null;
+  onImageRemove: () => void;
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, uploadedImageName }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, uploadedImage, onImageRemove }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (file: File | null) => {
@@ -21,18 +22,37 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, upl
     }
   };
   
-  const handleDragEvents = (e: React.DragEvent<HTMLLabelElement>, dragging: boolean) => {
+  const handleDragEvents = (e: React.DragEvent<HTMLElement>, dragging: boolean) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(dragging);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (e: React.DragEvent<HTMLElement>) => {
     handleDragEvents(e, false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileChange(e.dataTransfer.files[0]);
     }
   };
+
+  if (uploadedImage) {
+    return (
+      <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-zinc-300 group">
+        <img
+          src={`data:${uploadedImage.mimeType};base64,${uploadedImage.base64}`}
+          alt={uploadedImage.name}
+          className="w-full h-full object-contain p-2"
+        />
+        <button
+          onClick={onImageRemove}
+          className="absolute top-2 right-2 bg-black bg-opacity-50 text-white rounded-full p-1 transition-opacity opacity-0 group-hover:opacity-100 hover:bg-opacity-75 focus:opacity-100"
+          aria-label="Remove image"
+        >
+          <CloseIcon className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center w-full">
@@ -45,19 +65,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload, upl
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-            {uploadedImageName ? (
-                <>
-                    <p className="mb-2 text-sm font-semibold text-zinc-700">Image Selected:</p>
-                    <p className="text-xs text-zinc-500">{uploadedImageName}</p>
-                    <p className="text-xs text-zinc-400 mt-2">Drag another or click to replace</p>
-                </>
-            ) : (
-                <>
-                    <UploadIcon />
-                    <p className="mb-2 text-sm text-zinc-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                    <p className="text-xs text-zinc-500">PNG, JPG, or WEBP</p>
-                </>
-            )}
+            <UploadIcon />
+            <p className="mb-2 text-sm text-zinc-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+            <p className="text-xs text-zinc-500">PNG, JPG, or WEBP</p>
         </div>
         <input id="dropzone-file" type="file" className="hidden" accept="image/*" onChange={(e) => handleFileChange(e.target.files ? e.target.files[0] : null)} />
       </label>

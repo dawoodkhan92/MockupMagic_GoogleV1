@@ -200,7 +200,9 @@ export async function editGeneratedMockup(prompt: string, existingMockup: Upload
     };
 
     const textPart = {
-        text: prompt,
+        text: `You are an expert AI image editor. Edit the provided image based on this instruction: "${prompt}".
+        
+CRITICAL INSTRUCTION: Apply the requested change directly to the image. Preserve the overall style and composition of the original image unless the prompt asks to change it. Your output MUST be only the edited image. Do not output any text, just the modified image.`,
     };
 
     return callImageGenerationAPI({ parts: [imagePart, textPart] }, 'edit');

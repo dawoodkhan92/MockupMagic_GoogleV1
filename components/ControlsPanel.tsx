@@ -48,7 +48,11 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = (props) => {
             <div>
               <h3 className="text-lg font-bold mb-1 text-zinc-800">Step 1: Upload Product</h3>
               <p className="text-sm text-zinc-600 mb-3">A <span className="font-semibold">transparent background (PNG)</span> usually gives the best results.</p>
-              <ImageUploader onImageUpload={setUploadedImage} uploadedImageName={uploadedImage?.name || null}/>
+              <ImageUploader 
+                uploadedImage={uploadedImage}
+                onImageUpload={setUploadedImage} 
+                onImageRemove={() => setUploadedImage(null)}
+              />
             </div>
 
             <div>
@@ -77,7 +81,12 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = (props) => {
                 <div className="mt-4">
                   <div className="flex items-center justify-between mb-2">
                      <p className="text-xs text-zinc-600 font-medium">Need inspiration? Click to build your prompt:</p>
-                     <button onClick={handleFetchInitialSuggestions} disabled={isFetchingSuggestions} className="text-zinc-500 hover:text-zinc-800 disabled:text-zinc-300 transition-colors p-1 rounded-full">
+                     <button 
+                        onClick={handleFetchInitialSuggestions} 
+                        disabled={isFetchingSuggestions} 
+                        className="text-zinc-500 hover:text-zinc-800 disabled:text-zinc-300 transition-colors p-1 rounded-full"
+                        aria-label="Refresh suggestions"
+                     >
                        <RefreshIcon className={`h-4 w-4 ${isFetchingSuggestions ? 'animate-spin' : ''}`} />
                      </button>
                   </div>
