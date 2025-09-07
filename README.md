@@ -76,3 +76,5 @@ To run this project locally, you'll need Node.js and a Gemini API key.
     ```
 
 This will start the application on your local machine, typically at `http://localhost:5173`.
+
+*If selected as a winner, I consent to releasing the project under CC BY 4.0 per competition rules.
